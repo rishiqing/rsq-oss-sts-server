@@ -1,4 +1,7 @@
-const avatarService = require('./service/avatarService')
+const createError = require('http-errors')
+const passport = require('passport')
+
+const avatarService = require('../service/avatarService')
 
 const init = app => {
     //  存活检测
@@ -8,9 +11,15 @@ const init = app => {
 
 
     // 获取上传头像相关的sts
-    app.get('/sts/avatar', async (req, res, next) => {
+    app.get('/sts/:stsType',
+    passport.authenticate('jwt', { session: false }),
+     async (req, res, next) => {
         try {
-            res.json(avatarService.generateSTS())
+            if(!req.params.stsType){
+                return next(createError(400, `type not found`))
+            }
+            const result = await avatarService.generateSTS(req.params.stsType, req.user)
+            res.json(result)
         } catch (err){
             next(err)
         }

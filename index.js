@@ -30,5 +30,5 @@ errorHandler.init(app)
 // 开始监听
 const port = config.port
 app.listen(port, () => {
-  global.logger(chalk.blue(`>>sts server started at port: ${port}`))
+  global.logger.info(chalk.blue(`>>sts server started at port: ${port}`))
 })

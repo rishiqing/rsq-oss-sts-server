@@ -7,7 +7,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_CONFIG_DIR=C:\\Users\\czip\\sts-server NODE_ENV=production node sts-server.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.3.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
+    "prom-client": "^11.1.1",
     "winston": "^3.1.0"
   },
   "devDependencies": {
