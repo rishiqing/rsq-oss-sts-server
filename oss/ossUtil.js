@@ -30,14 +30,15 @@ init()
  * 对外暴露的接口，获取实际的token
  * @param {*} stsType sts的类型，需要跟stsType文件夹下的js文件名对应
  * @param {*} userInfo userInfo信息，实际为jwt解析出来的验证信息
+ * @param {*} params 其他参数，包括fileName等数据
  */
-const getStsToken = async (stsType, userInfo) => {
+const getStsToken = async (stsType, userInfo, params) => {
     const stsConfigHandler = stsTypeMap[stsType]
     if(!stsConfigHandler || !stsConfigHandler.getStsConfig){
         throw new Error(`stsType not found in sysTypeMap: ${stsType}`)
     }
 
-    const stsConfig = await stsConfigHandler.getStsConfig(userInfo)
+    const stsConfig = await stsConfigHandler.getStsConfig(userInfo, params)
 
     const result = await client.assumeRole(stsConfig.roleArn, stsConfig.policy, stsConfig.expiration, stsConfig.sessionName)
 

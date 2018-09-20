@@ -18,9 +18,11 @@ const sessionName = typeConfig.sessionName || defaults.sessionName
 //  超时时间
 const expiration = typeConfig.expiration || defaults.expiration
 
-const getResourcePath = async (userId) => {
+const getResourcePath = async (userId, fileName) => {
     const ts = new Date().getTime()
-    return `${ossBucket}/${ossPrefix}_${userId}_${ts}_avatar`
+    const extname = path.extname(fileName)
+    return `${ossBucket}/${ossPrefix}_${userId}_${ts}_avatar${extname}`
+    // return `${ossBucket}/${ossPrefix}_${userId}_avatarlogo.jpg`
 }
 
 const getPolicy = async (path) => {
@@ -43,14 +45,18 @@ const getPolicy = async (path) => {
 
 /**
  * 通过id生成具有权限的资源路径
- * @param {userId} params.userId 
+ * @param {userId} userInfo.userId 
  */
-const getStsConfig = async (params) => {
-    const userId = params.id || params.oldId
+const getStsConfig = async (userInfo, params) => {
+    const userId = userInfo.id || userInfo.oldId
+    const fileName = params.fileName
     if(!userId){
-        throw new Error(`userId not exists: ${JSON.stringify(params)}`)
+        throw new Error(`userId not exists: ${JSON.stringify(userInfo)}`)
     }
-    const resourcePath = await getResourcePath(userId)
+    if(!fileName){
+        throw new Error(`fileName not exists`)
+    }
+    const resourcePath = await getResourcePath(userId, fileName)
     const policy = await getPolicy(resourcePath)
 
     return {

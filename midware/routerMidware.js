@@ -16,9 +16,12 @@ const init = app => {
      async (req, res, next) => {
         try {
             if(!req.params.stsType){
-                return next(createError(400, `type not found`))
+                return next(createError(500, `type not found`))
             }
-            const result = await avatarService.generateSTS(req.params.stsType, req.user)
+            if(!req.query.fileName){
+                return next(createError(500, `fileName not found`))
+            }
+            const result = await avatarService.generateSTS(req.params.stsType, req.user, req.query)
             res.json(result)
         } catch (err){
             next(err)
