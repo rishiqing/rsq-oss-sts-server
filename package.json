@@ -20,6 +20,8 @@
     "express-useragent": "^1.0.12",
     "helmet": "^3.13.0",
     "http-errors": "^1.7.1",
+    "http-proxy-agent": "^2.1.0",
+    "https-proxy-agent": "^2.2.1",
     "jsonwebtoken": "^8.3.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
